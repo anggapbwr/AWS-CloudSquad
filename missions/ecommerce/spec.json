@@ -1,0 +1,22 @@
+{
+  "mission_id": "ecommerce_flash_sale",
+  "title": "E-Commerce Flash Sale Platform",
+  "category": "High Concurrency Web Application",
+  "target_rps": 10000,
+  "availability": "99.95%",
+  "monthly_budget_usd": 300,
+  "region": "ap-southeast-1",
+  "architecture": {
+    "compute": "ECS Fargate Multi-AZ",
+    "database": "Aurora PostgreSQL Serverless v2",
+    "cache": "ElastiCache Redis Cluster",
+    "cdn": "Amazon CloudFront + WAF",
+    "queue": "Amazon SQS FIFO"
+  },
+  "security_controls": [
+    "WAF Rate Limiting rules (100 req/min/IP)",
+    "Non-root container execution (UID 10001)",
+    "Hard-block on Critical CVE & leaked secrets",
+    "Cosign signature verification on ECR push"
+  ]
+}
