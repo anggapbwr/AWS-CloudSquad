@@ -1,0 +1,10 @@
+# Temporal Dynamic Config for local development with PostgreSQL
+# This file intentionally left minimal — defaults are used for all settings.
+# Add overrides here if needed: https://docs.temporal.io/references/dynamic-configuration
+
+limit.maxIDLength:
+  - value: 255
+    constraints: {}
+system.forceSearchAttributesCacheRefreshOnRead:
+  - value: true
+    constraints: {}

@@ -183,6 +183,33 @@ export default function Home() {
     mission.status !== "COMPLETED" &&
     mission.status !== "FAILED";
 
+  // Polling fallback when mission is running to ensure UI always stays in sync
+  useEffect(() => {
+    if (!mission?.id || !isRunning) return;
+
+    const interval = setInterval(async () => {
+      try {
+        const updated = await fetchMission(mission.id);
+        if (updated) {
+          setMission(updated);
+          syncFromMission(updated);
+          if (updated.status === "COMPLETED" || updated.status === "FAILED") {
+            const [evts, arts] = await Promise.all([
+              fetchMissionEvents(updated.id),
+              fetchMissionArtifacts(updated.id),
+            ]);
+            setEvents(evts);
+            setArtifacts(arts);
+          }
+        }
+      } catch {
+        // ignore polling network errors
+      }
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, [mission?.id, isRunning]);
+
   return (
     <div
       className="min-h-screen flex flex-col"
